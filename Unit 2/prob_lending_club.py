@@ -38,6 +38,6 @@ def main():
     df = cleanData()
     boxplot(df)
     histogram(df)
-    qqPlot(df)
+    qqPlot()
 
 main()

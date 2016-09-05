@@ -14,11 +14,11 @@ for i in range(len(loansData)):
 
 loansData['IR_TF'] = interestLessThan12
 
-loansData['intercept'] = [1]*len(loansData)
+loansData['intercept'] = [1] * len(loansData)
 
 loansData['ind_vars'] = ["loan Amount", "FICO Score", "interest Rate", "interestLessThan12", "intercept"]
 
-logit = sm.Logit(loansData['IR_TF'], loansData[ind_vars])
+logit = sm.Logit(loansData['IR_TF'], loansData['ind_vars'])
 result = logit.fit()
 
 coeff = result.params
