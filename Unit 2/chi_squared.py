@@ -14,3 +14,5 @@ chi, p = stats.chisquare(freq.values())
 print(p)
 print(chi)
 print("The chi-squared test shows that {0} is the p and {1} is the chi".format(p, chi))
+
+print("adding")
