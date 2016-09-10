@@ -57,6 +57,12 @@ def updateSQLiteTable(cities_json, con, date):
     except lite.IntegrityError:
         return
 
+def analysis(con):
+    cur = con.cursor()
+    with con:
+        cur.execute('SELECT * FROM weather')
+        
+
 def main():
     con = connectToDatabase()
     createSQLiteTable(con)
@@ -68,14 +74,15 @@ def main():
         }
     API_key = "fe97b4cef86991959b7c2a02a687e7d8"
     # runs from day 1...30
-    for i in range(1, 31):
-        date = datetime.datetime.now() - datetime.timedelta(days=30-i)
-        iso_format = date.isoformat()
-        clean_date = iso_format.split(".")[0]
-        # return a city json for the specific date
-        cities_json = getData(API_key, cities, str(clean_date))
-        # save max temp, city, date
-        updateSQLiteTable(cities_json, con, clean_date)
+    # for i in range(1, 31):
+    #     date = datetime.datetime.now() - datetime.timedelta(days=30-i)
+    #     iso_format = date.isoformat()
+    #     clean_date = iso_format.split(".")[0]
+    #     # return a city json for the specific date
+    #     cities_json = getData(API_key, cities, str(clean_date))
+    #     # save max temp, city, date
+    #     updateSQLiteTable(cities_json, con, clean_date)
         # print(cities_json["Austin"]["daily"]["data"][0]["temperatureMax"])
         # print(cities_json["Chicago"]["daily"]["data"][0]["temperatureMax"])
+    analysis(con)
 main()
