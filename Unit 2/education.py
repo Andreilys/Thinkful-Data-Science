@@ -1,7 +1,9 @@
 from bs4 import BeautifulSoup
 import requests
-import re
 import pandas as pd
+import matplotlib.pyplot as plt
+from scipy import stats
+
 
 #
 # print(soup.prettify)
@@ -28,7 +30,7 @@ def getHeader(soup):
             lheader_clean_list.append(str(lheader_list[i]))
     return lheader_clean_list
 
-def getData(soup):
+def getData(soup, column_names):
     data_tables = soup.find_all("table")
     data_rows = soup.find_all("tr", class_="tcont")
     data_rows_list = []
@@ -38,16 +40,28 @@ def getData(soup):
         data_cell = data_rows[i].find_all("td")
         clean_list = [u"a", u"d", u"c", u"b", u"e", u"f", u"g", u"h" u"\xc2\xa0", u"\xa0", u"\xa0", u""]
         data_list = [value.text for value in data_cell if value.text not in clean_list]
-        data_rows_list.append(data_list)
+        # turning unicode into integers
+        try:
+            data_list[1] = int(data_list[1])
+            data_list[2] = int(data_list[2])
+            data_list[3] = int(data_list[3])
+            data_list[4] = int(data_list[4])
+            data_rows_list.append(data_list)
+        except:
+            break
+    # get rid of last few rows that aren't necessary to add
     data_rows_list = data_rows_list[0:93]
-    df_countries = pd.DataFrame(data_rows_list)
+    df_countries = pd.DataFrame(data_rows_list, columns=column_names)
     return df_countries
 
 def main():
     soup = getSoup()
     column_names = getHeader(soup)
-    data_rows = getData(soup)
-    print(data_rows)
+    data_rows = getData(soup, column_names)
+    # plt.figure()
+    print(data_rows['Total'].mean())
+    print(data_rows['Total'].median())
+    # plt.show()
 
 main()
 # print(soup.contents[0])
