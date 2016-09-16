@@ -3,7 +3,7 @@ import requests
 import pandas as pd
 import matplotlib.pyplot as plt
 from scipy import stats
-
+import csv
 
 #
 # print(soup.prettify)
@@ -30,7 +30,7 @@ def getHeader(soup):
             lheader_clean_list.append(str(lheader_list[i]))
     return lheader_clean_list
 
-def getData(soup, column_names):
+def getEducationData(soup, column_names):
     data_tables = soup.find_all("table")
     data_rows = soup.find_all("tr", class_="tcont")
     data_rows_list = []
@@ -57,11 +57,8 @@ def getData(soup, column_names):
 def main():
     soup = getSoup()
     column_names = getHeader(soup)
-    data_rows = getData(soup, column_names)
-    # plt.figure()
-    print(data_rows['Total'].mean())
-    print(data_rows['Total'].median())
-    # plt.show()
+    education_df = getEducationData(soup, column_names)
+    print(education_df)
 
 main()
 # print(soup.contents[0])
