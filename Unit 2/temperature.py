@@ -9,8 +9,6 @@ import scipy.stats as stats
 #This is for the SQLite table to create unique_id to identify the data storage
 unique_ID = 100000
 
-
-
 #get data from weather API, return a list of JSON data from all the 5 cities
 def getData(API_key, cities, date):
     atlanta = requests.get("https://api.forecast.io/forecast/" + API_key + "/" + cities["Atlanta"] + "," + date).json()
@@ -20,25 +18,23 @@ def getData(API_key, cities, date):
     cleveland = requests.get("https://api.forecast.io/forecast/" + API_key + "/" + cities["Cleveland"]+ "," + date).json()
     cities_json = cities = {
         "Atlanta": atlanta,
-            "Austin": austin,
-            "Boston": boston,
-            "Chicago": chicago,
-            "Cleveland": cleveland
+        "Austin": austin,
+        "Boston": boston,
+        "Chicago": chicago,
+        "Cleveland": cleveland
         }
     return cities_json
+
 
 #create sqlite3 database
 def connectToDatabase():
     con = lite.connect('weather.db')
     return con
 
+
 #create my sqlite database table
 def createSQLiteTable(con):
     # check to see if the database is created already
-    # id_column = "id"
-    # time_column = "Time"
-    # city_column = "City"
-    # max_temp =
     try:
         cur = con.cursor()
         with con:
@@ -47,6 +43,7 @@ def createSQLiteTable(con):
     # if created, return
     except lite.OperationalError:
         return
+
 
 # update the SQLite table with the necessary variables
 def updateSQLiteTable(cities_json, con, date):
@@ -57,10 +54,12 @@ def updateSQLiteTable(cities_json, con, date):
         sql = "INSERT INTO weather VALUES (?,?,?,?)"
         with con:
             for city in cities_json:
+                # store inside the sqlite database, and increment unique_id
                 cur.execute(sql,(unique_ID, city, cities_json[city]["daily"]["data"][0]["temperatureMax"], date))
                 unique_ID += 1
     except lite.IntegrityError:
         return
+
 
 #perform analysis on the weather data
 def analysis(con):
@@ -103,11 +102,11 @@ def analysis(con):
     variance_list.append(["Chicago", np.var(cities_temp["Chicago"])])
     variance_list.append(["Cleveland",np.var(cities_temp["Cleveland"])])
     max_variance = ["placeholder", 0]
+    # find the city with the largest variation
     for i in range(len(variance_list)):
         if variance_list[i][1] >= max_variance[1]:
             max_variance = variance_list[i]
     print("The city with the greatest variation is {0}, with a variance of {1}".format(max_variance[0], max_variance[1]))
-
 
 # What is the distribution of the difference?
     plt.figure()
@@ -116,6 +115,7 @@ def analysis(con):
 
 # Does the result surprise you? Why or why not?
 # No they don't surprise me because Boston is a very cold city
+
 
 def main():
     con = connectToDatabase()
@@ -127,7 +127,7 @@ def main():
             "Cleveland": '41.478462,-81.679435'
         }
     API_key = "fe97b4cef86991959b7c2a02a687e7d8"
-    runs from day 1...30
+    # run for 30 days
     for i in range(1, 31):
         date = datetime.datetime.now() - datetime.timedelta(days=30-i)
         iso_format = date.isoformat()
@@ -136,7 +136,5 @@ def main():
         cities_json = getData(API_key, cities, str(clean_date))
         # save max temp, city, date
         updateSQLiteTable(cities_json, con, clean_date)
-        print(cities_json["Austin"]["daily"]["data"][0]["temperatureMax"])
-        print(cities_json["Chicago"]["daily"]["data"][0]["temperatureMax"])
     analysis(con)
 main()
