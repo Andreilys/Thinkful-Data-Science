@@ -1,7 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.naive_bayes import GaussianNB
-
+import numpy as np
 
 def getWeightData():
     weight_data = pd.read_csv("https://raw.githubusercontent.com/Thinkful-Ed/curric-data-001-data-sets/master/ideal-weight/ideal_weight.csv")
@@ -37,12 +37,34 @@ def mappingSex(sex):
     return gendersDF
 
 
-# ValueError: Found arrays with inconsistent numbers of samples: [  3 182]
 def naiveBayesSexClassifier(weight_data, genders):
+    # change to a 1D array for Gaussian function
+    Y = np.ravel(genders)
+    weight_ideal = weight_data['ideal'].reshape(182,1)
+    weight_actual = weight_data['actual'].reshape(182,1)
+    weight_diff = weight_data['diff'].reshape(182,1)
+    weight_list = []
+    for i in range(len(weight_data)):
+        weight_list.append([int(weight_actual[i]), int(weight_ideal[i]), int(weight_diff[i])])
+    X = np.array(weight_list)
     model = GaussianNB()
-    model.fit([weight_data['ideal'], weight_data['actual'], weight_data['diff']], genders)
+    model.fit(X, Y)
+    # convert prediction from 1 to
+    first_prediction = convertPrediction(model.predict([[145, 165, -15]]))
+    second_prediction = convertPrediction(model.predict([[160, 145, 15]]))
 
+    # first prediction:
+    print("The sex for an actual weight of 145, an ideal weight of 160, and a \
+    diff of -15 is {0}".format(first_prediction))
+    print("Predict the sex for an actual weight of 160, an ideal weight of 145, \
+    and a diff of 15 is {0}.".format(second_prediction))
 
+def convertPrediction(prediction):
+    if prediction == 1:
+        prediction = "Male"
+    else:
+        prediction = "Female"
+    return prediction
 
 def main():
     weight_data = getWeightData()

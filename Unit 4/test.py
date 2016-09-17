@@ -1,11 +1,4 @@
-import pandas as pd
+import numpy as np
 
-def getLoansData():
-    loansData = pd.read_csv("https://github.com/Andreilys/Thinkful-Data-Science/blob/master/Unit%202/overfitting.py")
-    loansData.dropna(inplace=True)
-    return loansData
-
-def main():
-    loans_data = getLoansData
-    print(loans_data)
-main()
+a = np.array([[-1, -1, -3], [-2, -1, -3], [-3, -2, -5], [1, 1, -9], [2, 1, 9], [3, 2, 2]])
+print(a.shape)
