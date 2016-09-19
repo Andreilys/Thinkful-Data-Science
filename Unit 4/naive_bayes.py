@@ -34,6 +34,10 @@ def mappingSex(sex):
         elif sex[i] == "Female":
             genders.append(0)
     gendersDF = pd.DataFrame(genders)
+    plt.figure()
+    gendersDF.hist()
+    plt.show()
+    print(len(genders))
     return gendersDF
 
 
@@ -49,7 +53,7 @@ def naiveBayesSexClassifier(weight_data, genders):
     X = np.array(weight_list)
     model = GaussianNB()
     model.fit(X, Y)
-    # convert prediction from 1 to
+    # convert prediction from 1 to male or female respectively
     first_prediction = convertPrediction(model.predict([[145, 165, -15]]))
     second_prediction = convertPrediction(model.predict([[160, 145, 15]]))
 
