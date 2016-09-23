@@ -56,6 +56,7 @@ def naiveBayesSexClassifier(weight_data, genders):
     # convert prediction from 1 to male or female respectively
     first_prediction = convertPrediction(model.predict([[145, 165, -15]]))
     second_prediction = convertPrediction(model.predict([[160, 145, 15]]))
+
     # first prediction:
     print("The sex for an actual weight of 145, an ideal weight of 160, and a \
     diff of -15 is {0}".format(first_prediction))
