@@ -8,9 +8,13 @@ def readFile():
     return dataSet
 
 
-def scatterPlot(sepalWidthDataset, sepalLengthDataset):
+def scatterPlot(dataSet):
+    sepalLengthDataset = dataSet[dataSet.columns[2:3]]
+    sepalWidthDataset = dataSet[dataSet.columns[3:4]]
+
     plt.figure()
-    plt.scatter(sepalLengthDataset, sepalWidthDataset)
+    plt.scatter(sepalLengthDataset[:50], sepalWidthDataset[:50], color="blue")
+    plt.scatter(sepalLengthDataset[50:], sepalWidthDataset[50:], color="red")
     plt.show()
 
 def knn(k):
@@ -19,8 +23,5 @@ def knn(k):
 
 def main():
     dataSet = readFile()
-    sepalLengthDataset = dataSet[dataSet.columns[0:1]]
-    sepalWidthDataset = dataSet[dataSet.columns[1:2]]
-    scatterPlot(sepalWidthDataset, sepalLengthDataset)
-    # sepalWidthDataset = getSepalWidth(dataSet)
+    scatterPlot(dataSet)
 main()
