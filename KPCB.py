@@ -7,9 +7,12 @@ This program implements a fixed-size hash map that associates string keys with a
 """
 
 
-# hashMap class utilizes the constructor, set, get, delete and load functions
+# hashMap class utilizes the methods: constructor (creates the fixed size hash map)
+# set (set a key and value pair), get (retrieve the associated value from the key)
+# delete (delete the key and value pair based on the key) and load (return a float
+# which shows the number of items in the hashmap divided by the size of the hashmap
 class hashMap:
-    # Initialize the function
+    # Initialize the class
     def __init__(self):
         self.data = []
         self.itemCount = 0
