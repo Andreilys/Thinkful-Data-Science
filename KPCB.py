@@ -1,8 +1,5 @@
 """
-Time Complexities:
-Using only primitive types, implement a fixed-size hash map
-that associates string keys with arbitrary data object references
-TODO: should tests do string printing? i.e. load is x? improve readability of output
+This program implements a fixed-size hash map that associates string keys with arbitrary data object references
 """
 
 
