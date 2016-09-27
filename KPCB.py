@@ -1,4 +1,8 @@
 """
+Andrei Lyskov
+www.andreilyskov.com
+www.linkedin.com/in/andreilyskov
+
 This program implements a fixed-size hash map that associates string keys with arbitrary data object references
 """
 
