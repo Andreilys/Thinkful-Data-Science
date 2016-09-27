@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 from scipy.cluster.vq import kmeans, kmeans2, whiten
-import matplotlib.pyplot as plt  
+import matplotlib.pyplot as plt
 
 
 def readFile():
@@ -9,7 +9,17 @@ def readFile():
     return dataSet
 
 
+def plotData(dataSet):
+    dataSet['lifeMale']
+    dataSet['lifeFemale']
+    dataSet['infantMortality']
+    dataSet['GDPperCapita']
+    plt.figure()
+    plt.scatter(dataSet['GDPperCapita'], dataSet['lifeMale'], color="red")
+    plt.show()
+
 def main():
     dataSet = readFile()
-    print(len(dataSet.index))
+    plotData(dataSet)
+    print(dataSet['lifeMale'])
 main()
