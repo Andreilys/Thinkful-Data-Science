@@ -23,6 +23,8 @@ class hashMap:
             for i in range(size):
                 self.data = [None] * size
 
+    # The set method takes a key and value pair, with the key being hashed
+    # before being stored in the data array.
     def set(self, key, value):
         hashedValue = hash(key) % self.size
         if self.data[hashedValue] == None:
@@ -30,7 +32,8 @@ class hashMap:
             self.itemCount = self.itemCount + 1
             return True
         else:
-            # check to see first if the hashMap is already full
+            # We're checking first to see if the hashMap is already full or not
+            # seeing as load cannot exceed 1
             if (float(self.itemCount + 1))/self.size <= 1:
                 self.data[hashedValue].append((key, value))
                 self.itemCount = self.itemCount + 1
@@ -38,22 +41,28 @@ class hashMap:
             else:
                 return False
 
+    # The get method takes in a key, retrieves the hash value, and traverses the
+    # stored list if there are additional values that hash to the same index
     def get(self, key):
         hashedValue = hash(key) % self.size
         if self.data[hashedValue]:
-            for i in range(len(self.data[hashedValue])):
-                if self.data[hashedValue][i][0] == key:
+            lengthOfBucket = len(self.data[hashedValue])
+            for i in range(lengthOfBucket):
+                keyValue = self.data[hashedValue][i][0]
+                if keyValue == key:
                     return self.data[hashedValue][i][1]
         else:
             return None
 
+    # The delete method takes in a key
     def delete(self, key):
         hashedValue = hash(key) % self.size
         if self.data[hashedValue]:
-            for i in range(len(self.data[hashedValue])):
-                if self.data[hashedValue][i][0] == key:
-                    print("work")
-                    deletedValue = self.data[hashedValue][i][1]
+            lengthOfBucket = len(self.data[hashedValue])
+            for i in range(lengthOfBucket):
+                keyValue = self.data[hashedValue][i][0]
+                if keyValue == key:
+                    deletedValue = keyValue
                     self.data[hashedValue].pop(i)
                     # Check to see if there are any elements left in the list.
                     # If not, set list to 0
@@ -71,7 +80,7 @@ class hashMap:
 
 
 def main():
-    newHash = hashMap(6)
+    newHash = hashMap(9)
     newHash.set("Blueberries", 5)
     newHash.set("Apples", 9)
     newHash.set("Lemons", 10)
