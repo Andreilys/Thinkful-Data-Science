@@ -13,54 +13,52 @@ This program implements a fixed-size hash map that associates string keys with a
 # which shows the number of items in the hashmap divided by the size of the hashmap
 class hashMap:
     # Initialize the class
-    def __init__(self):
+    def __init__(self, size):
         self.data = []
         self.itemCount = 0
-        self.size = 0
-
-    # constructor is a method which initializes the fixed map, assuming it is provided
-    # an appropriate int size variable. It returns the hashMap instance upon completion.
-    def constructor(self, size):
         self.size = size
         if (size <= 0):
             return 0
         else:
             for i in range(size):
-                self.data.append([])
-        return self
+                self.data = [None] * size
 
-    # Set method stores a key and value within a list of lists as long as there is
-    # still an empty list to store the data in. It returns true or false depending on its success.
     def set(self, key, value):
-        for i in range(len(self.data)):
-            if not self.data[i]:
-                self.data[i].append(key)
-                self.data[i].append(value)
+        hashedValue = hash(key) % self.size
+        if self.data[hashedValue] == None:
+            self.data[hashedValue] = [(key, value)]
+            self.itemCount = self.itemCount + 1
+            return True
+        else:
+            # check to see first if the hashMap is already full
+            if (float(self.itemCount + 1))/self.size <= 1:
+                self.data[hashedValue].append((key, value))
                 self.itemCount = self.itemCount + 1
                 return True
-        return False
+            else:
+                return False
 
-    # The get method goes through the data structure to find the appropriate key, returning
-    # None or the value if its found.
     def get(self, key):
-        for i in range(len(self.data)):
-            if self.data[i]:
-                if key == self.data[i][0]:
-                    return self.data[i][1]
-        return None
+        hashedValue = hash(key) % self.size
+        if self.data[hashedValue]:
+            for i in range(len(self.data[hashedValue])):
+                if self.data[hashedValue][i][0] == key:
+                    return self.data[hashedValue][i][1]
+        else:
+            return None
 
-    # The delete method takes in a key, and deletes it from the list of lists.
-    # It returns None or the value its deleted.
     def delete(self, key):
-        for i in range(len(self.data)):
-            if self.data[i]:
-                if key == self.data[i][0]:
-                    value = self.data[i][1]
-                    self.data[i].remove(value)
-                    self.data[i].remove(key)
+        hashedValue = hash(key) % self.size
+        if self.data[hashedValue]:
+            for i in range(len(self.data[hashedValue])):
+                if self.data[hashedValue][i][0] == key:
+                    print("work")
+                    deletedValue = self.data[hashedValue][i][1]
+                    self.data[hashedValue].pop(i)
                     self.itemCount = self.itemCount - 1
-                    return value
-        return None
+                    return deletedValue
+        else:
+            return None
 
     # The load method returns the number of items in the array, divided by the size
     # of the array
@@ -69,21 +67,25 @@ class hashMap:
 
 
 def tests(newHash):
-    print(newHash.constructor(3))
+    print("Creating constructor...")
     print(newHash.data)
     # Filling the hashmap to its full capacity and checking to see that it works
+    print("Testing set Method....")
     newHash.set("Apples", 9)
     newHash.set("Oranges", 7)
     newHash.set("Lemons", 3)
     print(newHash.data)
-    print(newHash.load())
+    print("The current load for the hash is: " + str(newHash.load()))
+    print("Testing get method...")
     print(newHash.get("Apples"))
     print(newHash.get("Oranges"))
+    print("Testing delete method...")
     newHash.delete("Apples")
     newHash.delete("Lemons")
     print(newHash.data)
-    print(newHash.load())
+    print("The current load for the hash is: " + str(newHash.load()))
     # Testing the return on invalid input
+    print("Testing bad input...")
     print(newHash.get("Blueberries"))
     print(newHash.delete("Cranberries"))
     print(newHash.set("Watermelons", 8))
@@ -92,8 +94,16 @@ def tests(newHash):
 
 
 def main():
-    newHash = hashMap()
-    tests(newHash)
+    newHash = hashMap(3)
+    newHash.set("Blueberries", 5)
+    newHash.set("Apples", 9)
+    newHash.set("Lemons", 10)
+    print(newHash.get("Apples"))
+    print(newHash.delete("Blueberries"))
+    print(newHash.set("Blueberries", 50))
+    print(newHash.delete("Lemons"))
+    print(newHash.data)
+    print(newHash.load())
 
 if __name__ == "__main__":
     main()
