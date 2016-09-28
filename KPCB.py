@@ -6,7 +6,6 @@ www.linkedin.com/in/andreilyskov
 This program implements a fixed-size hash map that associates string keys with arbitrary data object references
 """
 
-
 # hashMap class utilizes the methods: constructor (creates the fixed size hash map)
 # set (set a key and value pair), get (retrieve the associated value from the key)
 # delete (delete the key and value pair based on the key) and load (return a float
@@ -37,7 +36,7 @@ class hashMap:
         else:
             # We're checking first to see if the hashMap is already full or not
             # seeing as load cannot exceed 1
-            if (float(self.itemCount + 1))/self.size <= 1:
+            if (float(self.itemCount + 1))/self.size < 1:
                 self.data[hashedValue].append((key, value))
                 self.itemCount = self.itemCount + 1
                 return True
@@ -64,8 +63,8 @@ class hashMap:
             lengthOfBucket = len(self.data[hashedValue])
             for i in range(lengthOfBucket):
                 keyValue = self.data[hashedValue][i][0]
+                deletedValue = self.data[hashedValue][i][1]
                 if keyValue == key:
-                    deletedValue = keyValue
                     self.data[hashedValue].pop(i)
                     # Check to see if there are any elements left in the list.
                     # If not, set list to 0
