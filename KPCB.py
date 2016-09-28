@@ -23,10 +23,13 @@ class hashMap:
             for i in range(size):
                 self.data = [None] * size
 
+    def hashFunction(self, key):
+        return hash(key) % self.size
+
     # The set method takes a key and value pair, with the key being hashed
     # before being stored in the data array.
     def set(self, key, value):
-        hashedValue = hash(key) % self.size
+        hashedValue = self.hashFunction(key)
         if self.data[hashedValue] == None:
             self.data[hashedValue] = [(key, value)]
             self.itemCount = self.itemCount + 1
@@ -44,7 +47,7 @@ class hashMap:
     # The get method takes in a key, retrieves the hash value, and traverses the
     # stored list if there are additional values that hash to the same index
     def get(self, key):
-        hashedValue = hash(key) % self.size
+        hashedValue = self.hashFunction(key)
         if self.data[hashedValue]:
             lengthOfBucket = len(self.data[hashedValue])
             for i in range(lengthOfBucket):
@@ -56,7 +59,7 @@ class hashMap:
 
     # The delete method takes in a key
     def delete(self, key):
-        hashedValue = hash(key) % self.size
+        hashedValue = self.hashFunction(key)
         if self.data[hashedValue]:
             lengthOfBucket = len(self.data[hashedValue])
             for i in range(lengthOfBucket):
