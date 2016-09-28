@@ -55,6 +55,10 @@ class hashMap:
                     print("work")
                     deletedValue = self.data[hashedValue][i][1]
                     self.data[hashedValue].pop(i)
+                    # Check to see if there are any elements left in the list.
+                    # If not, set list to 0
+                    if not self.data[hashedValue]:
+                        self.data[hashedValue] = None
                     self.itemCount = self.itemCount - 1
                     return deletedValue
         else:
@@ -66,42 +70,16 @@ class hashMap:
         return float(self.itemCount) / self.size
 
 
-def tests(newHash):
-    print("Creating constructor...")
-    print(newHash.data)
-    # Filling the hashmap to its full capacity and checking to see that it works
-    print("Testing set Method....")
-    newHash.set("Apples", 9)
-    newHash.set("Oranges", 7)
-    newHash.set("Lemons", 3)
-    print(newHash.data)
-    print("The current load for the hash is: " + str(newHash.load()))
-    print("Testing get method...")
-    print(newHash.get("Apples"))
-    print(newHash.get("Oranges"))
-    print("Testing delete method...")
-    newHash.delete("Apples")
-    newHash.delete("Lemons")
-    print(newHash.data)
-    print("The current load for the hash is: " + str(newHash.load()))
-    # Testing the return on invalid input
-    print("Testing bad input...")
-    print(newHash.get("Blueberries"))
-    print(newHash.delete("Cranberries"))
-    print(newHash.set("Watermelons", 8))
-    print(newHash.set("Mangos", 3))
-    print(newHash.set("Grapes", 3))
-
-
 def main():
-    newHash = hashMap(3)
+    newHash = hashMap(6)
     newHash.set("Blueberries", 5)
     newHash.set("Apples", 9)
     newHash.set("Lemons", 10)
     print(newHash.get("Apples"))
     print(newHash.delete("Blueberries"))
     print(newHash.set("Blueberries", 50))
-    print(newHash.delete("Lemons"))
+    # print(newHash.delete("Lemons"))
+    # print(newHash.delete("Blueberries"))
     print(newHash.data)
     print(newHash.load())
 
