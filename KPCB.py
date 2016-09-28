@@ -5,7 +5,6 @@ www.linkedin.com/in/andreilyskov
 
 This program implements a fixed-size hash map that associates string keys with arbitrary data object references
 """
-
 # hashMap class utilizes the methods: constructor (creates the fixed size hash map)
 # set (set a key and value pair), get (retrieve the associated value from the key)
 # delete (delete the key and value pair based on the key) and load (return a float
@@ -79,20 +78,3 @@ class hashMap:
     # of the array
     def load(self):
         return float(self.itemCount) / self.size
-
-
-def main():
-    newHash = hashMap(9)
-    newHash.set("Blueberries", 5)
-    newHash.set("Apples", 9)
-    newHash.set("Lemons", 10)
-    print(newHash.get("Apples"))
-    print(newHash.delete("Blueberries"))
-    print(newHash.set("Blueberries", 50))
-    # print(newHash.delete("Lemons"))
-    # print(newHash.delete("Blueberries"))
-    print(newHash.data)
-    print(newHash.load())
-
-if __name__ == "__main__":
-    main()
