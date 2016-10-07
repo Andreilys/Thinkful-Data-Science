@@ -1,7 +1,7 @@
 import unittest
 from KPCB import hashMap
 
-
+# This class tests all the given methods iwthin the hashMap class
 class hashMapTests(unittest.TestCase):
     def setUp(self):
         newHash = hashMap(8)

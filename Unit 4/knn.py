@@ -11,7 +11,6 @@ def readFile():
 def scatterPlot(dataSet):
     sepalLengthDataset = dataSet[dataSet.columns[2:3]]
     sepalWidthDataset = dataSet[dataSet.columns[3:4]]
-
     plt.figure()
     plt.scatter(sepalLengthDataset[:50], sepalWidthDataset[:50], color="blue")
     plt.scatter(sepalLengthDataset[50:], sepalWidthDataset[50:], color="red")
